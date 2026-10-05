@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>VanLaabs</title>
+<meta name="description" content="VanLaabs is an independent game studio. Home of WhimsyWoods.">
+<style>
+@font-face { font-family: "Familjen Grotesk"; src: url("fonts/familjen-grotesk.woff") format("woff"); font-weight: 500 700; font-display: swap; }
+@font-face { font-family: "Instrument Sans"; src: url("fonts/instrument-sans.woff") format("woff"); font-weight: 400 600; font-display: swap; }
+@font-face { font-family: "JetBrains Mono"; src: url("fonts/jetbrains-mono.woff") format("woff"); font-weight: 400 500; font-display: swap; }
+:root {
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --line: #dde1e9;
+  --fg: #14171d;
+  --muted: #5b6372;
+  --accent: #5a44c8;
+  --accent-ink: #ffffff;
+  --grid: rgba(110, 80, 230, 0.38);
+  --divider: rgba(110, 80, 230, 0.38);
+  --ph: rgba(90, 68, 200, 0.10);
+
+  --font-display: "Familjen Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Instrument Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Menlo, Consolas, monospace;
+
+  --step-0: 1rem;
+  --step-1: 1.25rem;
+  --step-2: 1.75rem;
+  --step-3: clamp(2.25rem, 6vw, 3.5rem);
+  --step-4: clamp(3rem, 11vw, 6.5rem);
+  --radius: 14px;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1217; --surface: #161a21; --line: #262c37; --fg: #e8ebf1; --muted: #8d95a4;
+    --accent: #c4b5ff; --accent-ink: #15111f; --grid: rgba(168, 140, 255, 0.30); --divider: rgba(168, 140, 255, 0.30); --ph: rgba(196, 181, 255, 0.10);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1217; --surface: #161a21; --line: #262c37; --fg: #e8ebf1; --muted: #8d95a4;
+  --accent: #c4b5ff; --accent-ink: #15111f; --grid: rgba(168, 140, 255, 0.30); --divider: rgba(168, 140, 255, 0.30); --ph: rgba(196, 181, 255, 0.10);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-body);
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+[hidden] { display: none !important; }
+
+.wrap { max-width: 1080px; margin: 0 auto; padding-inline: 20px; }
+
+.site-header {
+  position: sticky; top: env(safe-area-inset-top, 0px); z-index: 10;
+  background: color-mix(in srgb, var(--bg) 85%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--divider);
+}
+.site-header .wrap { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding-block: 14px; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; font-family: var(--font-display); font-weight: 700; font-size: 1.15rem; letter-spacing: -0.01em; }
+.logo-slot {
+  display: none; width: 32px; height: 32px; border-radius: 8px;
+}
+nav ul { display: flex; gap: 6px; list-style: none; margin: 0; padding: 0; }
+nav a {
+  display: block; padding: 6px 12px; border-radius: 999px; text-decoration: none;
+  color: var(--muted); font-weight: 500; font-size: 0.95rem;
+  transition: color .15s, background .15s;
+}
+nav a:hover { color: var(--fg); }
+nav a[aria-current="page"] { color: var(--fg); background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); }
+
+h1, h2, h3 { font-family: var(--font-display); line-height: 1.05; letter-spacing: -0.02em; text-wrap: balance; margin: 0; }
+.eyebrow {
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--muted); margin: 0;
+}
+.prose { max-width: 62ch; color: var(--muted); }
+.prose p { margin: 0 0 1em; }
+
+main { padding-block: 0 96px; }
+section.page { display: grid; gap: 72px; }
+
+.hero { position: relative; margin-top: 48px; padding-block: 264px 218px; }
+.hero::before {
+  content: ""; position: absolute; inset: 0 -20px; z-index: -1;
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: 40px 40px;
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 30% 50%, #000 30%, transparent 75%);
+          mask-image: radial-gradient(ellipse 70% 70% at 30% 50%, #000 30%, transparent 75%);
+}
+.hero-inner { display: grid; gap: 22px; }
+.hero-inner .btn-row { margin-top: 30px; }
+.hero h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.04em; }
+.hero h1 { display: inline-flex; flex-direction: column; align-items: center; gap: 0.25em; justify-self: start; }
+.hero-logo { width: 0.85em; height: 0.85em; flex: none; }
+
+.tm { font-size: 0.32em; font-weight: 500; vertical-align: super; line-height: 0; margin-left: 0.08em; letter-spacing: 0; }
+h2 .tm, h3 .tm { font-size: 0.45em; }
+.brand .tm { font-size: 0.55em; }
+
+.btn {
+  display: inline-flex; align-items: center; gap: 8px; padding: 12px 20px; border-radius: 999px;
+  font-weight: 600; text-decoration: none; border: 0; cursor: pointer; font: inherit; font-weight: 600;
+  transition: transform .15s ease, opacity .15s;
+}
+.btn-primary { background: var(--fg); color: var(--bg); }
+.btn-primary:hover { transform: translateY(-1px); }
+.btn-ghost { background: transparent; color: var(--fg); box-shadow: inset 0 0 0 1px var(--line); }
+.btn-ghost:hover { box-shadow: inset 0 0 0 1px var(--muted); }
+.btn-row { display: flex; flex-wrap: wrap; gap: 10px; }
+.badge {
+  display: inline-flex; align-items: center; gap: 8px; padding: 6px 12px; border-radius: 999px;
+  font-family: var(--font-mono); font-size: 0.75rem; letter-spacing: 0.04em;
+  color: var(--muted); box-shadow: inset 0 0 0 1px var(--line);
+}
+.badge .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent); }
+
+.section-head { display: flex; align-items: end; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.section-head h2 { font-size: var(--step-2); }
+
+.art {
+  position: relative; aspect-ratio: 16 / 9; width: 100%; max-width: 100%;
+  border-radius: var(--radius); overflow: hidden;
+  background: var(--surface);
+  box-shadow: inset 0 0 0 1px var(--line);
+  display: grid; place-items: center; text-align: center;
+}
+.art span { font-family: var(--font-display); font-size: 1rem; font-weight: 500; color: var(--muted); letter-spacing: 0.01em; }
+.art img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+.logo-slot.has-img { display: block; }
+.logo-slot img { width: 100%; height: 100%; object-fit: contain; }
+.art.has-img { background: var(--surface); }
+
+.games-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+.game-card {
+  display: grid; gap: 16px; text-decoration: none; color: inherit;
+  padding: 14px 14px 20px; border-radius: calc(var(--radius) + 6px);
+  background: var(--surface); box-shadow: inset 0 0 0 1px var(--line);
+  transition: transform .2s ease, box-shadow .2s ease;
+}
+a.game-card:hover { transform: translateY(-3px); box-shadow: inset 0 0 0 1px var(--muted); }
+.game-card .meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-inline: 6px; }
+.game-card h3 { font-size: var(--step-1); padding-inline: 6px; }
+.game-card p { margin: 0; padding-inline: 6px; color: var(--muted); }
+
+.feature { display: grid; grid-template-columns: 1.4fr 1fr; gap: 32px; align-items: center; }
+.feature .text { display: grid; gap: 16px; min-width: 0; }
+.feature h2 { font-size: var(--step-3); }
+@media (max-width: 760px) { .feature { grid-template-columns: 1fr; } }
+
+.about { scroll-margin-top: 80px; }
+.about-title { font-size: clamp(2rem, 5vw, 2.6rem); }
+.motto { margin: 0; align-self: center; font-family: var(--font-display); font-weight: 500; font-size: clamp(2rem, 5vw, 2.6rem); line-height: 1.05; letter-spacing: -0.03em; text-wrap: balance; }
+.about { display: grid; grid-template-columns: 220px 1fr; gap: 24px; padding-top: 32px; border-top: 1px solid var(--divider); }
+@media (max-width: 760px) { .about { grid-template-columns: 1fr; } }
+
+.game-hero { display: grid; gap: 28px; padding-top: 48px; }
+.game-hero h1 { font-size: var(--step-3); }
+.back { font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); text-decoration: none; }
+.back:hover { color: var(--fg); }
+.two-col { display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; }
+.two-col > * { min-width: 0; }
+@media (max-width: 760px) { .two-col { grid-template-columns: 1fr; } }
+.facts { margin: 0; display: grid; gap: 0; border-top: 1px solid var(--divider); }
+.facts div { display: flex; justify-content: space-between; gap: 16px; padding-block: 12px; border-bottom: 1px solid var(--divider); }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; text-align: right; font-weight: 500; }
+.features { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; color: var(--muted); }
+.features li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; }
+.features li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: var(--accent); margin-top: 0.6em; }
+.shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+@media (max-width: 760px) { .shots { grid-template-columns: 1fr; } }
+
+.policy { max-width: 68ch; padding-top: 48px; display: grid; gap: 0; }
+.policy h1 { font-size: var(--step-3); margin: 10px 0 8px; }
+.policy .updated { margin: 0 0 28px; font-family: var(--font-mono); font-size: 0.8rem; color: var(--muted); }
+.policy .summary { margin: 0 0 12px; font-size: var(--step-1); line-height: 1.45; color: var(--fg); }
+.policy h2 { font-size: 1.2rem; margin: 32px 0 8px; letter-spacing: -0.01em; }
+.policy p { margin: 0 0 12px; color: var(--muted); }
+.policy a { color: var(--accent); text-underline-offset: 3px; }
+.policy strong { color: var(--fg); font-weight: 600; }
+
+footer { border-top: 1px solid var(--divider); }
+footer .wrap { display: grid; gap: 28px; padding-block: 40px 48px; }
+.footer-top { display: flex; justify-content: space-between; align-items: start; gap: 24px; flex-wrap: wrap; }
+.socials { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; }
+.socials a, .socials span {
+  display: block; padding: 7px 14px; border-radius: 999px; text-decoration: none; font-size: 0.9rem; font-weight: 500;
+  box-shadow: inset 0 0 0 1px var(--line); transition: box-shadow .15s, color .15s;
+}
+.socials a:hover { box-shadow: inset 0 0 0 1px var(--accent); color: var(--accent); }
+.socials .empty { color: var(--muted); opacity: 0.55; border: 0; box-shadow: inset 0 0 0 1px var(--line); background-image: none; }
+.contact { display: grid; gap: 4px; }
+.contact a { font-weight: 600; text-decoration: none; }
+.contact a:hover { color: var(--accent); }
+.policy-links { display: flex; flex-wrap: wrap; gap: 8px 24px; list-style: none; margin: 0; padding: 0 0 24px; border-bottom: 1px solid var(--divider); font-size: 0.9rem; }
+.policy-links a { color: var(--muted); text-decoration: none; }
+.policy-links a:hover { color: var(--fg); text-decoration: underline; text-underline-offset: 3px; }
+.legal { font-size: 0.85rem; color: var(--muted); display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+
+@media (prefers-reduced-motion: no-preference) {
+  section.page:not([hidden]) { animation: rise .45s ease both; }
+  @keyframes rise { from { opacity: .4; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#home">
+      <div class="logo-slot" data-img="images/logo" aria-hidden="true"></div>
+      <span>VanLaabs<sup class="tm">™</sup></span>
+    </a>
+    <nav aria-label="Main">
+      <ul>
+        <li><a href="#about" data-nav="about">About</a></li>
+        <li><a href="#games" data-nav="games">Games</a></li>
+        <li><a href="#socials" data-nav="socials">Socials</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="page" id="page-home" data-page="home">
+    <div class="hero">
+      <div class="hero-inner">
+        <h1>
+          <div class="hero-logo logo-slot" data-img="images/logo" aria-hidden="true"></div>
+          <span>VanLaabs</span>
+        </h1>
+        <div class="btn-row">
+          <a class="btn btn-primary" href="#games">See our games</a>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="feature">
+        <a href="#whimsywoods" aria-label="WhimsyWoods">
+          <div class="art" data-img="images/whimsywoods-key-art" data-alt="WhimsyWoods"><span>Coming Soon...</span></div>
+        </a>
+        <div class="text">
+          <h2>WhimsyWoods<sup class="tm">™</sup></h2>
+          <p class="prose" style="margin:0">Fly down an enchanted forest trail. Gather mushrooms to unlock new fairy styles and more.</p>
+          <div><a class="btn btn-ghost" href="#whimsywoods">View game</a></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="about" id="about">
+      <h2 class="about-title">About Us</h2>
+      <p class="motto">Founded in whimsy.</p>
+    </div>
+  </section>
+
+  <section class="page" id="page-games" data-page="games" hidden>
+    <div class="game-hero">
+      <p class="eyebrow">Games</p>
+      <h1>What we're making</h1>
+    </div>
+    <div class="games-grid">
+      <a class="game-card" href="#whimsywoods">
+        <div class="art" data-img="images/whimsywoods-key-art" data-alt="WhimsyWoods"><span>Coming Soon...</span></div>
+        <div class="meta"><span class="badge"><span class="dot"></span>In development</span></div>
+        <h3>WhimsyWoods<sup class="tm">™</sup></h3>
+        <p>Fly down an enchanted forest trail. Gather mushrooms to unlock new fairy styles and more.</p>
+      </a>
+    </div>
+  </section>
+
+  <section class="page" id="page-whimsywoods" data-page="whimsywoods" hidden>
+    <div class="game-hero">
+      <a class="back" href="#games">← All games</a>
+      <div class="section-head" style="margin:0">
+        <div style="display:grid;gap:10px">
+          <h1>WhimsyWoods<sup class="tm">™</sup></h1>
+        </div>
+        <div class="btn-row" id="steam-slot"></div>
+      </div>
+      <div class="art" data-img="images/whimsywoods-hero,images/whimsywoods-key-art" data-alt="WhimsyWoods"><span>Coming Soon...</span></div>
+    </div>
+
+    <div class="two-col">
+      <div class="prose" style="max-width:none">
+        <h2 style="font-size:var(--step-2);color:var(--fg);margin-bottom:16px">About the game</h2>
+        <p>Fly down an enchanted forest trail. Gather mushrooms to unlock new fairy styles and more.</p>
+        <h3 style="font-size:var(--step-1);color:var(--fg);margin:28px 0 14px">Features</h3>
+        <ul class="features">
+          <li>Online multiplayer sessions with friends</li>
+          <li>A new trail every race, with forks and branching lanes</li>
+          <li>Purchase upgrades and items in the mushroom shop</li>
+          <li>Race the setting sun to gather as much as possible</li>
+          <li>Gather mushrooms to customize your character</li>
+        </ul>
+      </div>
+      <aside>
+        <dl class="facts">
+          <div><dt>Developer</dt><dd>VanLaabs LLC</dd></div>
+          <div><dt>Players</dt><dd>2–6 online</dd></div>
+          <div><dt>Platform</dt><dd>PC (Steam)</dd></div>
+          <div><dt>Status</dt><dd>In development</dd></div>
+          <div><dt>Release</dt><dd>TBA</dd></div>
+        </dl>
+      </aside>
+    </div>
+
+    <div>
+      <div class="section-head"><h2>Screenshots</h2></div>
+      <div class="shots">
+        <div class="art" data-img="images/whimsywoods-shot1" data-alt="WhimsyWoods screenshot 1"><span>Coming Soon...</span></div>
+        <div class="art" data-img="images/whimsywoods-shot2" data-alt="WhimsyWoods screenshot 2"><span>Coming Soon...</span></div>
+        <div class="art" data-img="images/whimsywoods-shot3" data-alt="WhimsyWoods screenshot 3"><span>Coming Soon...</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="page" id="page-privacy" data-page="privacy" hidden>
+    <article class="policy">
+      <p class="eyebrow">Legal</p>
+      <h1>Privacy Policy</h1>
+      <p class="updated">Last updated: October 4, 2026</p>
+
+      <p class="summary">The short version: this website doesn't collect your personal information. There are no accounts, sign-up forms, cookies, analytics, ads, or trackers.</p>
+
+      <h2>Who we are</h2>
+      <p>This website is run by VanLaabs LLC, an independent game studio. You can reach us at <strong>support@vanlaabs.com</strong>.</p>
+
+      <h2>What happens when you visit</h2>
+      <p>This site is hosted by GitHub Pages. Like most web hosts, GitHub may automatically log technical information such as your IP address to keep the service running and secure. We don't receive or use those logs. You can read how GitHub handles this in the <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>.</p>
+      <p>Everything else on this site, including our fonts, is served directly from our own website. We don't load anything from advertising or analytics companies.</p>
+
+      <h2>If you email us</h2>
+      <p>If you contact us by email, we'll receive your email address and whatever you choose to send. We use it only to reply to you. We don't sell it, share it, or add you to a mailing list. You can ask us to delete your messages at any time.</p>
+
+      <h2>Links to other sites</h2>
+      <p>Our site links to places like Steam and our social media pages. Those sites have their own privacy policies, and we don't control what they collect.</p>
+
+      <h2>Children</h2>
+      <p>We don't knowingly collect personal information from anyone, including children under 13. If you believe a child has sent us personal information, email us and we'll delete it.</p>
+
+      <h2>Our games</h2>
+      <p>Our games may have their own privacy policies. When they do, we'll post them on this website.</p>
+
+      <h2>Your choices</h2>
+      <p>You can email us to ask what information we have about you, if any, or to ask us to delete it.</p>
+
+      <h2>Changes</h2>
+      <p>If this policy changes, we'll update this page and the date at the top.</p>
+    </article>
+  </section>
+
+  <section class="page" id="page-cookies" data-page="cookies" hidden>
+    <article class="policy">
+      <p class="eyebrow">Legal</p>
+      <h1>Cookie Policy</h1>
+      <p class="updated">Last updated: October 4, 2026</p>
+
+      <p class="summary">We don't use cookies.</p>
+
+      <p>This website doesn't place cookies or similar tracking technologies, like tracking pixels or browser storage, on your device. There's nothing to accept or turn off.</p>
+      <p>If that ever changes, we'll update this page first and ask for your consent where the law requires it.</p>
+      <p>Questions? Email us at <strong>support@vanlaabs.com</strong>. For more about how we handle information, see our <a href="#privacy">Privacy Policy</a>.</p>
+    </article>
+  </section>
+
+</main>
+
+<footer id="socials">
+  <div class="wrap">
+    <ul class="policy-links">
+      <li><a href="#privacy">Privacy Policy</a></li>
+      <li><a href="#cookies">Cookie Policy</a></li>
+    </ul>
+    <div class="footer-top">
+      <div style="display:grid;gap:12px">
+        <p class="eyebrow">Follow VanLaabs</p>
+        <ul class="socials" id="social-list"></ul>
+      </div>
+      <div class="contact">
+        <p class="eyebrow">Contact</p>
+        <a href="mailto:support@vanlaabs.com">support@vanlaabs.com</a>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© <span id="year">2026</span> VanLaabs LLC. All rights reserved.</span>
+      <span>VanLaabs</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+const SITE = {
+  steamUrl: "",
+  socials: [
+    { name: "Discord",   url: "" },
+    { name: "Instagram", url: "" },
+    { name: "X",         url: "" },
+    { name: "Bluesky",   url: "" },
+    { name: "Reddit",    url: "" },
+    { name: "Facebook",  url: "" },
+  ],
+  showEmptySocials: true,
+};
+
+document.querySelectorAll("[data-img]").forEach(el => {
+  const tries = el.dataset.img.split(",").flatMap(n => [n + ".jpg", n + ".png", n + ".webp"]);
+  const next = i => {
+    if (i >= tries.length) return;
+    const img = new Image();
+    img.onload = () => {
+      img.alt = el.dataset.alt || "";
+      el.replaceChildren(img);
+      el.classList.add("has-img");
+    };
+    img.onerror = () => next(i + 1);
+    img.src = tries[i];
+  };
+  next(0);
+});
+
+const list = document.getElementById("social-list");
+SITE.socials.forEach(s => {
+  if (!s.url && !SITE.showEmptySocials) return;
+  const li = document.createElement("li");
+  if (s.url) {
+    const a = document.createElement("a");
+    a.href = s.url; a.target = "_blank"; a.rel = "noopener"; a.textContent = s.name;
+    li.appendChild(a);
+  } else {
+    const span = document.createElement("span");
+    span.className = "empty"; span.textContent = s.name; span.title = "No link yet";
+    li.appendChild(span);
+  }
+  list.appendChild(li);
+});
+
+const steam = document.getElementById("steam-slot");
+if (SITE.steamUrl) {
+  steam.innerHTML = `<a class="btn btn-primary" target="_blank" rel="noopener" href="${SITE.steamUrl}">Wishlist on Steam</a>`;
+} else {
+  steam.innerHTML = `<span class="badge"><span class="dot"></span>Coming to Steam</span>`;
+}
+
+document.getElementById("year").textContent = new Date().getFullYear();
+
+const pages = [...document.querySelectorAll("[data-page]")];
+let current = "home";
+function show() {
+  const key = (location.hash || "#home").slice(1);
+  let target = current, anchor = null;
+  if (key === "about") { target = "home"; anchor = "about"; }
+  else if (key === "socials") { anchor = "socials"; }
+  else target = pages.some(p => p.dataset.page === key) ? key : "home";
+
+  current = target;
+  pages.forEach(p => p.hidden = p.dataset.page !== target);
+  document.querySelectorAll("[data-nav]").forEach(a => {
+    const n = a.dataset.nav;
+    const active = (n === "about" && key === "about") ||
+                   (n === "games" && (target === "games" || target === "whimsywoods") && key !== "socials" && key !== "about");
+    if (active) a.setAttribute("aria-current", "page"); else a.removeAttribute("aria-current");
+  });
+  if (anchor) requestAnimationFrame(() => document.getElementById(anchor).scrollIntoView({ behavior: "smooth" }));
+  else window.scrollTo(0, 0);
+}
+window.addEventListener("hashchange", show);
+document.addEventListener("click", e => {
+  const a = e.target.closest('a[href^="#"]');
+  if (a && a.getAttribute("href") === location.hash) { e.preventDefault(); show(); }
+});
+show();
+</script>
+</body>
+</html>

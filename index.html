@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>VanLaabs</title>
 <meta name="description" content="VanLaabs is an independent game studio. Home of WhimsyWoods.">
+<link rel="icon" type="image/png" sizes="16x16" href="images/logo_plain_16x16.png">
+<link rel="apple-touch-icon" href="images/logo_full_512x512.png">
 <style>
 @font-face { font-family: "Familjen Grotesk"; src: url("fonts/familjen-grotesk.woff") format("woff"); font-weight: 500 700; font-display: swap; }
 @font-face { font-family: "Instrument Sans"; src: url("fonts/instrument-sans.woff") format("woff"); font-weight: 400 600; font-display: swap; }
@@ -109,7 +111,7 @@ section.page { display: grid; gap: 72px; }
 .hero-inner .btn-row { margin-top: 30px; }
 .hero h1 { font-size: var(--step-4); font-weight: 700; letter-spacing: -0.04em; }
 .hero h1 { display: inline-flex; flex-direction: column; align-items: center; gap: 0.25em; justify-self: start; }
-.hero-logo { width: 0.85em; height: 0.85em; flex: none; }
+.hero-logo { width: clamp(100px, 30vw, 180px); height: clamp(100px, 30vw, 180px); flex: none; }
 
 .tm { font-size: 0.32em; font-weight: 500; vertical-align: super; line-height: 0; margin-left: 0.08em; letter-spacing: 0; }
 h2 .tm, h3 .tm { font-size: 0.45em; }
@@ -227,7 +229,7 @@ footer .wrap { display: grid; gap: 28px; padding-block: 40px 48px; }
 <header class="site-header">
   <div class="wrap">
     <a class="brand" href="#home">
-      <div class="logo-slot" data-img="images/logo" aria-hidden="true"></div>
+      <div class="logo-slot" data-img="images/logo_plain_32x32" aria-hidden="true"></div>
       <span>VanLaabs<sup class="tm">™</sup></span>
     </a>
     <nav aria-label="Main">
@@ -246,7 +248,7 @@ footer .wrap { display: grid; gap: 28px; padding-block: 40px 48px; }
     <div class="hero">
       <div class="hero-inner">
         <h1>
-          <div class="hero-logo logo-slot" data-img="images/logo" aria-hidden="true"></div>
+          <div class="hero-logo logo-slot" data-img="images/logo_full_512x512" aria-hidden="true"></div>
           <span>VanLaabs</span>
         </h1>
         <div class="btn-row">
